@@ -18,7 +18,7 @@ import { SmallCloseIcon } from "@chakra-ui/icons";
 
 import React, { useState } from "react";
 import axios from "axios";
-// import backimg from "../../assets/Loginimage.jpg";
+import { Navigator, useNavigate } from "react-router-dom";
 
 function DocForm() {
   const [usernamed, setusername] = useState("");
@@ -27,7 +27,14 @@ function DocForm() {
   const [Specializationd, setspecialization] = useState("");
   const check = false;
 
-  function clicki() {
+  let navigate = useNavigate();
+  function routeChange() {
+    let path = "/doctors";
+    console.log(path);
+    navigate(path);
+  }
+
+  async function clicki() {
     console.log("clicked");
     const dat = {
       username: usernamed,
@@ -35,11 +42,13 @@ function DocForm() {
       email: emaild,
       Specialization: Specializationd,
     };
-    axios.post("http://localhost:7000/login", dat).then((resp) => {
+    await axios.post("http://localhost:7000/docreg", dat).then((resp) => {
       check = resp.data;
+      routeChange();
     });
     if (check) {
       alert("User name already exists");
+    } else {
     }
   }
   return (

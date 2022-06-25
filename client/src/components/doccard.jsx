@@ -31,6 +31,7 @@ function Doccard(props) {
       p={6}
       textAlign={"center"}
       onClick={routeChange}
+      style={{ cursor: "pointer" }}
     >
       <Avatar
         size={"xl"}
