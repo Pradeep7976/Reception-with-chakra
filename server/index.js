@@ -88,6 +88,7 @@ app.post("/docreg", async (req, res) => {
       email: email,
       specialization: Specializationd,
     });
+    console.log(username);
     console.log(DocRecep1);
     const User = Recep.find({ username });
     DocRecep1.save();
@@ -95,6 +96,14 @@ app.post("/docreg", async (req, res) => {
   } else {
     res.send(true);
   }
+});
+
+app.get("/doctors", (req, res) => {
+  7;
+  console.log("req reached");
+  Docrecep.find({}).then((dat) => {
+    res.send(dat);
+  });
 });
 
 app.listen(7000, function () {
