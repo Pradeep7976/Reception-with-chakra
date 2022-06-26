@@ -14,6 +14,7 @@ import {
   Center,
   Box,
 } from "@chakra-ui/react";
+import "./DovReg.css";
 import { SmallCloseIcon } from "@chakra-ui/icons";
 
 import React, { useState } from "react";
@@ -54,12 +55,14 @@ function DocForm() {
   return (
     <Box>
       <Flex
+        className="docreg"
         minH={"100vh"}
         align={"center"}
         justify={"center"}
         bg={useColorModeValue("gray.50", "gray.800")}
       >
         <Stack
+          className="card1"
           spacing={4}
           w={"full"}
           maxW={"md"}
@@ -89,7 +92,9 @@ function DocForm() {
                 </Avatar>
               </Center>
               <Center w="full">
-                <Button w="full">Change Icon</Button>
+                <Button w="full" backgroundColor={"#08839c"} color="white">
+                  Change Icon
+                </Button>
               </Center>
             </Stack>
           </FormControl>
