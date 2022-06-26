@@ -7,14 +7,10 @@ import RegesterR from "./pages/Regester_Receps/RegesterR";
 import DocForm from "./pages/Doc_reg/DocReg";
 import Doctors from "./pages/Doctors/Doctors";
 
-import backimg from "./assets/Loginimage.jpg";
-
-import "./App.css";
-
 function App() {
   return (
     <ChakraProvider theme={theme}>
-      <div className="App" style={{ backgroundImage: `url('${backimg}')` }}>
+      <div className="App">
         <Router>
           <Routes>
             <Route path="/login" element={<LoginP />} />

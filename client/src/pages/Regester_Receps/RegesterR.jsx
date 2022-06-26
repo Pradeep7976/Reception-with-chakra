@@ -1,9 +1,29 @@
 import React, { useState } from "react";
 import "./RegesterR.css";
 import axios from "axios";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+import {
+  Flex,
+  Box,
+  FormControl,
+  FormLabel,
+  Input,
+  InputGroup,
+  HStack,
+  InputRightElement,
+  Stack,
+  Button,
+  Heading,
+  Text,
+  useColorModeValue,
+  Link,
+} from "@chakra-ui/react";
+
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import { useNavigate } from "react-router-dom";
 
 function RegesterR() {
+  const [showPassword, setShowPassword] = useState(false);
   const [usernamed, setusername] = useState("");
   const [passwordd, setpassword] = useState("");
   const [cpasswordd, setcpassword] = useState("");
@@ -26,98 +46,113 @@ function RegesterR() {
       alert("username exist");
     }
   }
+  let navigate = useNavigate();
+  function routeChange() {
+    let path = "/login";
+    console.log(path);
+    navigate(path);
+  }
   return (
-    <div id="loginform">
-      <FormHeader title="Register" />
-      {/* <Form /> */}
-      <div>
-        <div class="row">
-          <label>Username</label>
-          <input
-            type="text"
-            placeholder="Enter your username"
-            onChange={(e) => {
-              setusername(e.target.value);
-            }}
-          />
-        </div>
-
-        <div class="row">
-          <label>Password</label>
-          <input
-            type="text"
-            placeholder="Enter your password"
-            onChange={(e) => {
-              setpassword(e.target.value);
-            }}
-          />
-        </div>
-        <div class="row">
-          <label>Password</label>
-          <input
-            type="password"
-            placeholder="Confirm password"
-            onChange={(e) => {
-              setcpassword(e.target.value);
-            }}
-          />
-          <FontAwesomeIcon icon="fa-solid fa-eye" />
-        </div>
-        <div id="button" class="row">
-          <button onClick={clicki}>Log in</button>
-        </div>
-      </div>
+    <div className="registerr">
+      <Flex
+        className="card"
+        minH={"100vh"}
+        align={"center"}
+        justify={"center"}
+        bg={useColorModeValue("gray.50", "gray.800")}
+      >
+        <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
+          <Stack align={"center"}>
+            <Heading fontSize={"4xl"} textAlign={"center"}>
+              Sign up
+            </Heading>
+          </Stack>
+          <Box
+            rounded={"lg"}
+            bg={useColorModeValue("white", "gray.700")}
+            boxShadow={"lg"}
+            p={8}
+          >
+            <Stack spacing={4}>
+              <HStack>
+                <Box>
+                  <FormControl id="firstName" isRequired>
+                    <FormLabel>Username Name</FormLabel>
+                    <Input
+                      type="text"
+                      onChange={(e) => {
+                        setusername(e.target.value);
+                      }}
+                    />
+                  </FormControl>
+                </Box>
+                <Box>
+                  <FormControl id="lastName">
+                    <FormLabel>Last Name</FormLabel>
+                    <Input type="text" />
+                  </FormControl>
+                </Box>
+              </HStack>
+              <FormControl id="password" isRequired>
+                <FormLabel>Password</FormLabel>
+                <InputGroup>
+                  <Input
+                    type={showPassword ? "text" : "password"}
+                    onChange={(e) => {
+                      setpassword(e.target.value);
+                    }}
+                  />
+                  <InputRightElement h={"full"}>
+                    <Button
+                      variant={"ghost"}
+                      onClick={() =>
+                        setShowPassword((showPassword) => !showPassword)
+                      }
+                    >
+                      {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+                    </Button>
+                  </InputRightElement>
+                </InputGroup>
+              </FormControl>
+              <FormControl id="password" isRequired>
+                <FormLabel>Confirm Password</FormLabel>
+                <InputGroup>
+                  <Input
+                    type="password"
+                    onChange={(e) => {
+                      setcpassword(e.target.value);
+                    }}
+                  />
+                </InputGroup>
+              </FormControl>
+              <Stack spacing={10} pt={2}>
+                <Button
+                  loadingText="Submitting"
+                  size="lg"
+                  bg={"blue.400"}
+                  color={"white"}
+                  _hover={{
+                    bg: "blue.500",
+                  }}
+                  onClick={clicki}
+                >
+                  Sign up
+                </Button>
+              </Stack>
+              <Stack pt={6}>
+                <Text align={"center"}>
+                  Already a user?{" "}
+                  <Link color={"blue.400"} onClick={routeChange}>
+                    Login
+                  </Link>
+                </Text>
+              </Stack>
+            </Stack>
+          </Box>
+        </Stack>
+      </Flex>
     </div>
   );
 }
-
-const FormHeader = (props) => <h2 id="headerTitle">{props.title}</h2>;
-
-// const Form = (props) => (
-//   <div>
-//     <div class="row">
-//       <label>Username</label>
-//       <input type="text" placeholder="Enter your username" />
-//     </div>
-
-//     <div class="row">
-//       <label>Password</label>
-//       <input type="text" placeholder="Enter your password" />
-//     </div>
-//     <div id="button" class="row">
-//       <button>Log in</button>
-//     </div>
-//   </div>
-// );
-
-// const Form = (props) => (
-//   <div>
-//     <FormInput
-//       description="Username"
-//       placeholder="Enter your username"
-//       type="text"
-//     />
-
-//     <FormInput
-//       description="Password"
-//       placeholder="Enter your password"
-//       type="password"
-//     />
-//     <FormButton title="Log in" />
-//   </div>
-// );
-
-// const FormButton = (props) => (
-//   <div id="button" class="row">
-//     <button>{props.title}</button>
-//   </div>
-// );
-
-// const FormInput = (props) => (
-//   <div class="row">
-//     <label>{props.description}</label>
-//     <input type={props.type} placeholder={props.placeholder} />
-//   </div>
-// );
 
 export default RegesterR;

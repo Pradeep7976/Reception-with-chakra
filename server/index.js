@@ -31,19 +31,17 @@ mongoose
 
 app.post("/login", async (req, res) => {
   const { username, password } = req.body;
+  console.log(username);
+  console.log("received");
   const User = await Recep.find({ username });
   if (User.length == 0) {
     console.log("Not found biro");
-    res.send("Bad request");
+    res.send(false);
   } else {
     console.log(User[0].username);
-    res.send("OK");
-    // User.map((resu) => {
-    //   console.log(resu.username);
-    // });
-    // console.log(User);
     const Passwordcorrect = await bcrypt.compare(password, User[0].password);
     console.log("The output of the bycypt " + Passwordcorrect);
+    res.send(Passwordcorrect);
   }
 });
 
