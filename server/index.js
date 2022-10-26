@@ -3,11 +3,13 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const app = express();
 
 const Recep = require("./model/reception");
 const Docrecep = require("./model/docreg");
+const Secret = "jwtsecret";
 
 app.use(
   bodyParser.urlencoded({
@@ -29,19 +31,43 @@ mongoose
     console.log("Error connecting to Database");
   });
 
+const verifyJwt = (req, res, next) => {
+  const token = req.headers["x-access-token"];
+  if (!token) {
+    res.send("Sorry bro no token");
+  } else {
+    jwt.verify(token, Secret, (err, decoded) => {
+      if (err) {
+        res.json({ auth: false, message: "U fail to auth bro " });
+        console.log("notauthorised");
+      } else {
+        console.log("authorsed");
+        req.userId = decoded.id;
+        next();
+      }
+    });
+  }
+};
+
+app.get("/isUserAuth", verifyJwt, (req, res) => {
+  res.json({ auth: true });
+});
+
 app.post("/login", async (req, res) => {
   const { username, password } = req.body;
-  console.log(username);
-  console.log("received");
-  const User = await Recep.find({ username });
-  if (User.length == 0) {
-    console.log("Not found biro");
-    res.send(false);
+  // console.log(username);
+  // console.log("received");
+  const User = await Recep.findOne({ username });
+  const Passwordcorrect =
+    User === null ? false : await bcrypt.compare(password, User.password);
+  if (!(User && Passwordcorrect)) {
+    return res.status(401).json({
+      error: "invalid Username or Password",
+    });
   } else {
-    console.log(User[0].username);
-    const Passwordcorrect = await bcrypt.compare(password, User[0].password);
-    console.log("The output of the bycypt " + Passwordcorrect);
-    res.send(Passwordcorrect);
+    const username = User.username;
+    const token = jwt.sign({ username }, Secret, { expiresIn: 10000 });
+    res.json({ auth: true, token: token, user: User });
   }
 });
 
@@ -51,8 +77,10 @@ app.post("/regesterr", async (req, res) => {
   const password = req.body.password;
   const passwordHash = await bcrypt.hash(password, saltRounds);
 
-  const Users = await Recep.find({ username });
-  if (Users.length == 0) {
+  const User = await Recep.findOne({ username });
+  const Passwordcorrect =
+    User === null ? false : await bcrypt.compare(password, User.password);
+  if (User.length == 0) {
     console.log("Not found biro");
     console.log("Request received");
     const Recep1 = new Recep({
@@ -60,11 +88,13 @@ app.post("/regesterr", async (req, res) => {
       password: passwordHash,
     });
     console.log(Recep1);
-    const User = Recep.find({ username });
+    console.log("SERVER END");
     Recep1.save();
-    res.send(Recep1);
+    const token = jwt.sign({ email }, Secret, { expiresIn: 800 });
+    // console.log(token);
+    res.json({ auth: true, token: token });
   } else {
-    res.send(true);
+    res.send(false);
   }
 });
 
@@ -73,37 +103,70 @@ app.post("/docreg", async (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
   const email = req.body.email;
-  const Specializationd = req.body.Specialization;
+  const Specializationd = req.body.specialization;
+  const description = req.body.description;
+  const date = req.body.date;
+  const rating = req.body.rating;
   const passwordHash = await bcrypt.hash(password, saltRounds);
+  console.log(username);
+  console.log(email);
+  console.log(Specializationd);
 
-  const Users = await Recep.find({ username });
-  if (Users.length == 0) {
-    console.log("Not found biro");
-    console.log("Request received");
-    const DocRecep1 = new Docrecep({
-      username: username,
-      password: passwordHash,
-      email: email,
-      specialization: Specializationd,
+  await Docrecep.find({ email: email }, async (err, result) => {
+    console.log("Result from the DB" + result);
+    if (err) {
+      console.log(err);
+    } else {
+      if (result.length == 0) {
+        const dat = new Docrecep({
+          username: username,
+          password: passwordHash,
+          email: email,
+          specialization: Specializationd,
+          description: description,
+          date: date,
+          rating: rating,
+        });
+        console.log(dat);
+        dat.save();
+        res.send(true);
+      } else {
+        res.send(false);
+      }
+    }
+  })
+    .clone()
+    .catch(function (err) {
+      console.log(err);
     });
-    console.log(username);
-    console.log(DocRecep1);
-    const User = Recep.find({ username });
-    DocRecep1.save();
-    res.send(DocRecep1);
-  } else {
-    res.send(true);
-  }
+  // console.log(req.body);
 });
 
 app.get("/doctors", (req, res) => {
-  7;
-  console.log("req reached");
   Docrecep.find({}).then((dat) => {
     res.send(dat);
   });
 });
 
+app.post("/doctors/search", (req, res) => {
+  const user = req.body.username;
+
+  Docrecep.find({ username: req.body.username }, (err, data) => {
+    if (data.length == 0) {
+      res.send(false);
+    } else {
+      res.send(data);
+    }
+  });
+});
+
+app.get("/deletedoc", (req, res) => {
+  const email = req.body.username;
+  console.log(email);
+  Docrecep.deleteMany({ username: email }).then((result) => {
+    res.send("done");
+  });
+});
 app.listen(7000, function () {
   console.log("Server started on port 7000");
 });

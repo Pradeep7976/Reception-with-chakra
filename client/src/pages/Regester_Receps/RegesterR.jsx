@@ -23,7 +23,6 @@ import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
 
 function RegesterR() {
-  const [showPassword, setShowPassword] = useState(false);
   const [usernamed, setusername] = useState("");
   const [passwordd, setpassword] = useState("");
   const [cpasswordd, setcpassword] = useState("");
@@ -42,8 +41,10 @@ function RegesterR() {
       alert("password and confirm password should be same");
     }
     console.log("post req results" + check);
-    if (!check) {
+    if (check) {
       alert("username exist");
+    } else {
+      navigate("/doctors");
     }
   }
   let navigate = useNavigate();
@@ -53,103 +54,126 @@ function RegesterR() {
     navigate(path);
   }
   return (
-    <Flex
-      className="card"
-      minH={"100vh"}
-      align={"center"}
-      justify={"center"}
-      bg={useColorModeValue("gray.50", "gray.800")}
-    >
-      <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
-        <Stack align={"center"}>
-          <Heading fontSize={"4xl"} textAlign={"center"} className="Signuptxt">
-            Sign up
-          </Heading>
-        </Stack>
-        <Box
-          rounded={"lg"}
-          bg={useColorModeValue("white", "gray.700")}
-          boxShadow={"lg"}
-          p={8}
+    <div class="header">
+      <div class="inner-header flex">
+        <path
+          fill="#FFFFFF"
+          stroke="#000000"
+          stroke-width="10"
+          stroke-miterlimit="10"
+          d="M57,283"
+        />
+        <g>
+          <path
+            fill="#fff"
+            d="M250.4,0.8C112.7,0.8,1,112.4,1,250.2c0,137.7,111.7,249.4,249.4,249.4c137.7,0,249.4-111.7,249.4-249.4
+C499.8,112.4,388.1,0.8,250.4,0.8z M383.8,326.3c-62,0-101.4-14.1-117.6-46.3c-17.1-34.1-2.3-75.4,13.2-104.1
+c-22.4,3-38.4,9.2-47.8,18.3c-11.2,10.9-13.6,26.7-16.3,45c-3.1,20.8-6.6,44.4-25.3,62.4c-19.8,19.1-51.6,26.9-100.2,24.6l1.8-39.7		c35.9,1.6,59.7-2.9,70.8-13.6c8.9-8.6,11.1-22.9,13.5-39.6c6.3-42,14.8-99.4,141.4-99.4h41L333,166c-12.6,16-45.4,68.2-31.2,96.2	c9.2,18.3,41.5,25.6,91.2,24.2l1.1,39.8C390.5,326.2,387.1,326.3,383.8,326.3z"
+          />
+        </g>
+        <Stack
+          minH={"100vh"}
+          direction={{ base: "column", md: "row" }}
+          minW={"80%"}
         >
-          <Stack spacing={4}>
-            <HStack>
-              <Box>
-                <FormControl id="firstName" isRequired>
-                  <FormLabel>Username Name</FormLabel>
-                  <Input
-                    type="text"
-                    onChange={(e) => {
-                      setusername(e.target.value);
-                    }}
-                  />
-                </FormControl>
-              </Box>
-              <Box>
-                <FormControl id="lastName">
-                  <FormLabel>Last Name</FormLabel>
-                  <Input type="text" />
-                </FormControl>
-              </Box>
-            </HStack>
-            <FormControl id="password" isRequired>
-              <FormLabel>Password</FormLabel>
-              <InputGroup>
+          <Flex p={8} flex={1} align={"center"} justify={"center"}>
+            <Stack spacing={4} w={"full"} maxW={"md"}>
+              <Heading className="text" fontSize={"2xl"}>
+                Create account
+              </Heading>
+              <FormControl className="form" id="email" width={"25rem"}>
+                <FormLabel>Username</FormLabel>
                 <Input
-                  type={showPassword ? "text" : "password"}
+                  type="text"
+                  onChange={(e) => {
+                    setusername(e.target.value);
+                  }}
+                  backgroundColor={"white"}
+                  color={"black"}
+                  fontSize={15}
+                />
+              </FormControl>
+              <FormControl className="form" id="password" width={"25rem"}>
+                <FormLabel>Password</FormLabel>
+                <Input
+                  type="password"
                   onChange={(e) => {
                     setpassword(e.target.value);
                   }}
+                  backgroundColor={"white"}
+                  color={"black"}
                 />
-                <InputRightElement h={"full"}>
-                  <Button
-                    variant={"ghost"}
-                    onClick={() =>
-                      setShowPassword((showPassword) => !showPassword)
-                    }
-                  >
-                    {showPassword ? <ViewIcon /> : <ViewOffIcon />}
-                  </Button>
-                </InputRightElement>
-              </InputGroup>
-            </FormControl>
-            <FormControl id="password" isRequired>
-              <FormLabel>Confirm Password</FormLabel>
-              <InputGroup>
+              </FormControl>
+              <FormControl className="form" id="password" width={"25rem"}>
+                <FormLabel>Confirm Password</FormLabel>
                 <Input
                   type="password"
                   onChange={(e) => {
                     setcpassword(e.target.value);
                   }}
+                  backgroundColor={"white"}
+                  color={"black"}
                 />
-              </InputGroup>
-            </FormControl>
-            <Stack spacing={10} pt={2}>
-              <Button
-                loadingText="Submitting"
-                size="lg"
-                bg={"blue.400"}
-                color={"white"}
-                _hover={{
-                  bg: "blue.500",
-                }}
-                onClick={clicki}
-              >
-                Sign up
-              </Button>
+              </FormControl>
+              <Stack spacing={6}>
+                <Stack
+                  direction={{ base: "column", sm: "row" }}
+                  align={"start"}
+                  justify={"space-between"}
+                ></Stack>
+                <Button
+                  colorScheme={"blue"}
+                  variant={"solid"}
+                  onClick={clicki}
+                  width={"25rem"}
+                  className={"btnr"}
+                >
+                  Sign in
+                </Button>
+              </Stack>
             </Stack>
-            <Stack pt={6}>
-              <Text align={"center"}>
-                Already a user?{" "}
-                <Link color={"blue.400"} onClick={routeChange}>
-                  Login
-                </Link>
-              </Text>
-            </Stack>
-          </Stack>
-        </Box>
-      </Stack>
-    </Flex>
+          </Flex>
+        </Stack>
+      </div>
+      <div>
+        <svg
+          class="waves"
+          xmlns="http://www.w3.org/2000/svg"
+          xmlnsXlink="http://www.w3.org/1999/xlink"
+          viewBox="0 24 150 28"
+          preserveAspectRatio="none"
+          shape-rendering="auto"
+        >
+          <defs>
+            <path
+              id="gentle-wave"
+              d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"
+            />
+          </defs>
+          <g class="parallax">
+            <use
+              xlinkHref="#gentle-wave"
+              x="48"
+              y="0"
+              fill="rgba(255,255,255,0.7"
+            />
+            <use
+              xlinkHref="#gentle-wave"
+              x="48"
+              y="3"
+              fill="rgba(255,255,255,0.5)"
+            />
+            <use
+              xlinkHref="#gentle-wave"
+              x="48"
+              y="5"
+              fill="rgba(255,255,255,0.3)"
+            />
+            <use xlinkHref="#gentle-wave" x="48" y="7" fill="#fff" />
+          </g>
+        </svg>
+      </div>
+    </div>
   );
 }
 

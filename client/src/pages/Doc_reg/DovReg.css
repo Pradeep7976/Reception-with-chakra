@@ -9,4 +9,23 @@
 }
 .card1 {
   background: #def5fa !important;
+  height: 37rem;
+  max-height: 37rem;
+}
+.scrollable-div {
+  background-color: #f1f1f1;
+  height: 37rem;
+  overflow: auto;
+  margin: 20px;
+  text-align: justify;
+  padding: 20px;
+}
+.scrollable-div::-webkit-scrollbar {
+  width: 0 !important;
+}
+.des1 {
+  height: 10rem;
+}
+.des1::-webkit-scrollbar {
+  width: 0 !important;
 }

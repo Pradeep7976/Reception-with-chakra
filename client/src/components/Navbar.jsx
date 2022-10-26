@@ -1,15 +1,12 @@
+// eslint-disable-next-line
 import { ReactNode } from "react";
 import {
   Box,
   Flex,
-  Avatar,
   Link,
   Button,
   Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  MenuDivider,
+  Image,
   useDisclosure,
   useColorModeValue,
   Stack,
@@ -17,6 +14,7 @@ import {
   Center,
 } from "@chakra-ui/react";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
+import "./navbar.css";
 
 const NavLink = ({ children }: { children: ReactNode }) => (
   <Link
@@ -37,18 +35,26 @@ export default function Nav() {
   const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
-    <>
-      <Box bg={useColorModeValue("gray.100", "gray.900")} px={4}>
-        <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
-          <Box>Logo</Box>
+    <Box
+      bg={useColorModeValue("gray.100", "gray.900")}
+      px={4}
+      className="navbar"
+    >
+      <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
+        <Box>
+          <Image
+            src={"https://ik.imagekit.io/aj4rz7nxsa/DOC/logo_HOxjf_l6C.png"}
+            w={10}
+          ></Image>
+        </Box>
 
-          <Flex alignItems={"center"}>
-            <Stack direction={"row"} spacing={7}>
-              <Button onClick={toggleColorMode}>
-                {colorMode === "light" ? <MoonIcon /> : <SunIcon />}
-              </Button>
+        <Flex alignItems={"center"}>
+          <Stack direction={"row"} spacing={7}>
+            <Button onClick={toggleColorMode}>
+              {colorMode === "light" ? <MoonIcon /> : <SunIcon />}
+            </Button>
 
-              <Menu>
+            {/* <Menu>
                 <MenuButton
                   as={Button}
                   rounded={"full"}
@@ -79,11 +85,10 @@ export default function Nav() {
                   <MenuItem>Account Settings</MenuItem>
                   <MenuItem>Logout</MenuItem>
                 </MenuList>
-              </Menu>
-            </Stack>
-          </Flex>
+              </Menu> */}
+          </Stack>
         </Flex>
-      </Box>
-    </>
+      </Flex>
+    </Box>
   );
 }
