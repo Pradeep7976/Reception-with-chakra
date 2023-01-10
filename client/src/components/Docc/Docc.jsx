@@ -75,6 +75,7 @@ export default function Docc(props) {
           alignContent={"center"}
           className="imgbox"
         >
+
           <Image
             src={
               "https://ik.imagekit.io/aj4rz7nxsa/DOC/istockphoto-1189304032-612x612_sdLRC6VS-.jpg"

@@ -48,7 +48,9 @@ const verifyJwt = (req, res, next) => {
     });
   }
 };
-
+app.get("/", (req, res) => {
+  res.send("Server is not crashed");
+});
 app.get("/isUserAuth", verifyJwt, (req, res) => {
   res.json({ auth: true });
 });
@@ -167,6 +169,9 @@ app.get("/deletedoc", (req, res) => {
     res.send("done");
   });
 });
-app.listen(7000, function () {
-  console.log("Server started on port 7000");
+app.get("/android", (req, res) => {
+  res.send("Congo Bro");
+});
+app.listen(7000 || process.env.PORT, function () {
+  console.log(`Server started on port 7000 `);
 });
