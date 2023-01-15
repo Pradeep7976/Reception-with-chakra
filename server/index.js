@@ -4,6 +4,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const multer = require("multer");
 
 const app = express();
 
@@ -172,6 +173,51 @@ app.get("/deletedoc", (req, res) => {
 app.get("/android", (req, res) => {
   res.send("Congo Bro");
 });
+///storage
+const Storage = multer.diskStorage({
+  destination: "uploads",
+  filename: (req, file, cb) => {
+    cb(null, Date.now + file.originalname);
+  },
+});
+const upload = multer({
+  storage: Storage,
+}).single("testImage");
+
+////////////
+
+app.post("/upload", (req, res) => {
+  upload(req, res, (err) => {
+    if (err) {
+      console.log(err);
+    } else {
+      const newImage = new imageModel({
+        name: req.body.name,
+        image: {
+          data: req.file.filename,
+          contentType: "image/png",
+        },
+      });
+      newImage
+        .save()
+        .then(() => res.send("DONE UPLOAD"))
+        .catch((e) => {
+          console.log("ERROR UPLOAD");
+        });
+    }
+  });
+});
+app.get("/getupload", (req, res) => {
+  imageModel.find({ name: "testImage" }, (err, data) => {
+    res.send(data);
+  });
+});
+
+const imageModel = require("./model/Image_model");
+app.get("/upload", (req, res) => {
+  res.send("UPLOAD IMAGE");
+});
+
 app.listen(7000 || process.env.PORT, function () {
   console.log(`Server started on port 7000 `);
 });

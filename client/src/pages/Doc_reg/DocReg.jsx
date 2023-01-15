@@ -79,27 +79,27 @@ function DocForm() {
               Doctor Profile Edit
             </Heading>
             <FormControl id="userName">
-              {/* <FormLabel>User Icon</FormLabel>
-            <Stack direction={["column", "row"]} spacing={6}>
-              <Center>
-                <Avatar size="xl" src="https://bit.ly/sage-adebayo">
-                  <AvatarBadge
-                    as={IconButton}
-                    size="sm"
-                    rounded="full"
-                    top="-10px"
-                    colorScheme="red"
-                    aria-label="remove Image"
-                    icon={<SmallCloseIcon />}
-                  />
-                </Avatar>
-              </Center> */}
-              {/* <Center w="full">
-                <Button w="full" backgroundColor={"#08839c"} color="white">
-                  Change Icon
-                </Button>
-              </Center>
-            </Stack> */}
+              <FormLabel>User Icon</FormLabel>
+              <Stack direction={["column", "row"]} spacing={6}>
+                <Center>
+                  <Avatar size="xl" src="https://bit.ly/sage-adebayo">
+                    <AvatarBadge
+                      as={IconButton}
+                      size="sm"
+                      rounded="full"
+                      top="-10px"
+                      colorScheme="red"
+                      aria-label="remove Image"
+                      icon={<SmallCloseIcon />}
+                    />
+                  </Avatar>
+                </Center>
+                <Center w="full">
+                  <Button w="full" backgroundColor={"#08839c"} color="white">
+                    Change Icon
+                  </Button>
+                </Center>
+              </Stack>
             </FormControl>
             <FormControl id="userName" isRequired>
               <FormLabel>User name</FormLabel>
@@ -153,7 +153,7 @@ function DocForm() {
                 type="text"
                 className="des1"
                 onChange={(e) => {
-                  setspecialization(e.target.value);
+                  setdescription(e.target.value);
                 }}
               />
             </FormControl>
